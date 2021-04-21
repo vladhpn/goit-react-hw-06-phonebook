@@ -1,13 +1,12 @@
 import { Component } from "react";
-import shortid from 'shortid';
+import { connect} from 'react-redux';
+import contactsActions from '../../redux/contacts/contacts-action'
 import styles from '../Form/styles.module.scss';
 
 
 class Form extends Component{
 
-   nameInputId = shortid.generate();
-
-    state ={
+    state = {
         name: '',
         number: '',
     }
@@ -17,6 +16,7 @@ class Form extends Component{
           [name]: value,
         });
       };
+   
 
       handleSubmit = (event) => {
         event.preventDefault();
@@ -53,7 +53,7 @@ class Form extends Component{
                   name='number'
                   value={this.state.number}
                   onChange={this.handleInputChange}
-                  pattern='(\+?( |-|\.)?\d{1,2}( |-|\.)?)?(\(?\d{3}\)?|\d{3})( |-|\.)?(\d{3}( |-|\.)?\d{4})'
+                  // pattern='(\+?( |-|\.)?\d{1,2}( |-|\.)?)?(\(?\d{3}\)?|\d{3})( |-|\.)?(\d{3}( |-|\.)?\d{4})'
                   title='Номер телефона должен состоять из 11-12 цифр и может содержать цифры, пробелы, тире, пузатые скобки и может начинаться с +'
                   required
                 />
@@ -65,5 +65,8 @@ class Form extends Component{
     }
 }
 
+const mapDispatchToProps = dispatch => ({
+  onSubmit: (name,number) => dispatch(contactsActions.addContact(name,number))
+})
 
-export default Form;
+export default connect(null, mapDispatchToProps)(Form);
