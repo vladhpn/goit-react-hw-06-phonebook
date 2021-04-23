@@ -42,9 +42,9 @@ class App extends Component {
   //   }));
   // };
 
-  changeFilter = event => {
-    this.setState({ filter: event.currentTarget.value });
-  };
+  // changeFilter = event => {
+  //   this.setState({ filter: event.currentTarget.value });
+  // };
 
   // getVisibleContact = () => {
   //   const { contacts, filter } = this.state;

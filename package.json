@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://vladhpn.github.io/goit-react-hw-06-phonebook",
   "dependencies": {
+    "@reduxjs/toolkit": "^1.5.1",
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^12.8.3",
@@ -16,6 +17,7 @@
     "react-scripts": "4.0.3",
     "react-toastify": "^7.0.3",
     "redux": "^4.0.5",
+    "redux-logger": "^3.0.6",
     "sass": "^1.32.11",
     "shortid": "^2.2.16",
     "web-vitals": "^1.1.1"
