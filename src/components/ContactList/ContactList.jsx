@@ -17,8 +17,19 @@ const ContactList = ({contacts, onDeleteContact }) =>{return (<>
      onDeleteContact: PropTypes.func.isRequired
     }
 
-    const mapStateToProps = (state) => ({
-        contacts: state.contacts.contact
+    const getVisibleContact = (contacts ,filter) => {
+    
+        const normilizeFilter = filter.toLowerCase();
+    
+        const filtered = contacts.filter(({name}) =>
+          name.toLowerCase().includes(normilizeFilter),
+        );
+        return  filtered;
+      };
+
+
+    const mapStateToProps = ({contacts: {contacts, filter}}) => ({
+        contacts: getVisibleContact(contacts, filter)
     })
     const mapDispatchToProps = dispatch => ({
         onDeleteContact: (id) => dispatch(contactsActions.deleteContact(id)),

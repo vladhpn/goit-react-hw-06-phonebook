@@ -1,6 +1,7 @@
 import { Component } from "react";
 import { connect} from 'react-redux';
 import contactsActions from '../../redux/contacts/contacts-action'
+import { toast } from 'react-toastify';
 import styles from '../Form/styles.module.scss';
 
 
@@ -21,12 +22,23 @@ class Form extends Component{
       handleSubmit = (event) => {
         event.preventDefault();
 
+        const { name } = this.state;
+        const { contacts } = this.props;
+        const findContact = contacts.find(
+          (item) => item.name.toLowerCase() === name.toLowerCase()
+        );
+        if (findContact) {
+          toast.warning(`${name} is already in contacts`);
+          this.reset();
+          return;
+        }
+
         this.props.onSubmit(this.state );
         this.reset();
       };
 
       reset = () => {
-          this.setState({'name' : '', 'number' : ''})
+          this.setState({name : '', number : ''})
       }
 
     render(){
@@ -65,8 +77,12 @@ class Form extends Component{
     }
 }
 
+const mapStateToProps = ({ contacts: { contacts } }) => ({
+  contacts,
+});
+
 const mapDispatchToProps = dispatch => ({
   onSubmit: (name,number) => dispatch(contactsActions.addContact(name,number))
 })
 
-export default connect(null, mapDispatchToProps)(Form);
+export default connect(mapStateToProps, mapDispatchToProps)(Form);

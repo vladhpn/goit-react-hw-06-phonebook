@@ -13,30 +13,16 @@ const Filter = ({value, onChange}) => {
         
       </label> </>)}
 
-      // Filter.propTypes = {
-      //   value: PropTypes.string.isRequired,
-      //   onChange: PropTypes.func.isRequired
-      // }
+      Filter.propTypes = {
+        value: PropTypes.string,
+        onChange: PropTypes.func.isRequired
+      }
 
- const getVisibleContact = (allContacts ,filter) => {
-    
-    const normilizeFilter = filter.toLowerCase();
-
-    return allContacts.filter(contact =>
-      contact.name.toLowerCase().includes(normilizeFilter),
-    );
-  };
-
-
-      const mapStateToProps = (state) => {
-        const {filter, contact} = state.contacts;
-        const visibleContact = getVisibleContact(contact, filter) 
-       return {
-         value:  state.contacts.filter
-        } 
-    }
+      const mapStateToProps = (state) => ({
+         value: state.contacts.filter
+    })
      const mapDispatchToProps =  dispatch => ({
-       onChange: e => dispatch(contactsActions.changeFilter(e.currentTarget.value))
+       onChange: e => dispatch(contactsActions.changeFilter(e.target.value))
      })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filter);
