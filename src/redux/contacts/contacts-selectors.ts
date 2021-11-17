@@ -1,5 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 
+
 type ContactType = {
   id: string
   name:string

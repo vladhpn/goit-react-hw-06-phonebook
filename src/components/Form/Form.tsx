@@ -13,14 +13,14 @@ const Form  = () => {
     const [name, setName] = useState('')
     const [number, setNumber] = useState('')
 
-    const addName = (event) => {
+    const addName = (event:React.ChangeEvent<HTMLInputElement>) => {
         setName(event.target.value)
     }
-    const addNumber = (event) => {
+    const addNumber = (event:React.ChangeEvent<HTMLInputElement>) => {
       setNumber(event.target.value)
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event:React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
 
@@ -39,6 +39,7 @@ const Form  = () => {
       return;
     }
     dispatch(contactsActions.addContact({name,number}))
+    toast.success(`${name} added successfully`);
     setNumber('')
     setName('')
   }

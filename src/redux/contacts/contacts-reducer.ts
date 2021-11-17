@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import { createReducer } from '@reduxjs/toolkit';
 import actions from './contacts-action';
 
+
 const primeContacts = [
   { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
   { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
@@ -15,8 +16,7 @@ interface IContact{
   number:string
 }
 
-
-const contacts = createReducer(primeContacts as IContact[], {
+const contacts = createReducer(primeContacts as IContact [], {
   [actions.addContact.type]: (state, action) => [...state, action.payload],
   [actions.deleteContact.type]: (state, action) =>
     state.filter(({ id }) => id !== action.payload),
