@@ -16,7 +16,7 @@ interface IContact{
 }
 
 
-const contacts = createReducer([] as IContact[], {
+const contacts = createReducer(primeContacts as IContact[], {
   [actions.addContact.type]: (state, action) => [...state, action.payload],
   [actions.deleteContact.type]: (state, action) =>
     state.filter(({ id }) => id !== action.payload),

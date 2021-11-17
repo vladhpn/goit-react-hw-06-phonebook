@@ -7,6 +7,9 @@ const ContactList = () =>{
     const dispatch = useDispatch()
     const contacts = useSelector(getVisibleContacts)
 
+    // console.log(123)
+    // console.log(contacts)
+
     const onDeleteContact = (id) => dispatch(contactsActions.deleteContact(id));
     return (<>
     <ul className={styles.list} >{contacts.map(({id, name, number}) => <li key={id} className={styles.item}>
