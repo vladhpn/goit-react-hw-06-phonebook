@@ -1,58 +1,59 @@
-import { Component } from "react";
-import { connect} from 'react-redux';
+import { useState} from "react";
+import {getContacts} from '../../redux/contacts/contacts-selectors'
 import contactsActions from '../../redux/contacts/contacts-action'
 import { toast } from 'react-toastify';
 import styles from '../Form/styles.module.scss';
+import { useDispatch, useSelector} from "react-redux";
 
 
-class Form extends Component{
+const Form  = () => { 
+       const dispatch = useDispatch()
+       const contacts = useSelector(getContacts)
 
-    state = {
-        name: '',
-        number: '',
+    const [name, setName] = useState('')
+    const [number, setNumber] = useState('')
+
+    const addName = (event) => {
+        setName(event.target.value)
     }
-    handleInputChange = (event) => {
-        const { name, value } = event.currentTarget;
-        this.setState({
-          [name]: value,
-        });
-      };
-   
+    const addNumber = (event) => {
+      setNumber(event.target.value)
+  }
 
-      handleSubmit = (event) => {
-        event.preventDefault();
+  const handleSubmit = (event) => {
+    event.preventDefault()
 
-        const { name } = this.state;
-        const { contacts } = this.props;
-        const findContact = contacts.find(
-          (item) => item.name.toLowerCase() === name.toLowerCase()
-        );
-        if (findContact) {
-          toast.warning(`${name} is already in contacts`);
-          this.reset();
-          return;
-        }
 
-        this.props.onSubmit(this.state );
-        this.reset();
-      };
-
-      reset = () => {
-          this.setState({name : '', number : ''})
-      }
-
-    render(){
-        return(<>
-        
+    const findContact = contacts.find(
+      (item) => item.name.toLowerCase() === name.toLowerCase()
+    );
+    const findNumber = contacts.find((item) => item.number === number) 
+    if (findContact) {
+      toast.warning(`${name} is already in contacts`);
+      
+      return;
+    }
+    else if(findNumber){
+      toast.warning(`${number} is already in contacts`);
+      
+      return;
+    }
+    dispatch(contactsActions.addContact({name,number}))
+    setNumber('')
+    setName('')
+  }
+  
+        return(
+        <>
             <h1 className={styles.title}>Phone book</h1>
-            <form onSubmit={this.handleSubmit} className={styles.form}>
+            <form onSubmit={handleSubmit} className={styles.form}>
               <label className={styles.label}>
                 <span className={styles.text}>Name</span>
                 <input className={styles.input}
                   type='text'
                   name='name'
-                  value={this.state.name}
-                  onChange={this.handleInputChange}
+                  value={name}
+                  onChange={addName}
                   pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
                   title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
                   required
@@ -63,8 +64,8 @@ class Form extends Component{
                 <input className={styles.input}
                   type='tel'
                   name='number'
-                  value={this.state.number}
-                  onChange={this.handleInputChange}
+                  value={number}
+                  onChange={addNumber}
                   // pattern='(\+?( |-|\.)?\d{1,2}( |-|\.)?)?(\(?\d{3}\)?|\d{3})( |-|\.)?(\d{3}( |-|\.)?\d{4})'
                   title='Номер телефона должен состоять из 11-12 цифр и может содержать цифры, пробелы, тире, пузатые скобки и может начинаться с +'
                   required
@@ -75,14 +76,5 @@ class Form extends Component{
             
           </>)
     }
-}
 
-const mapStateToProps = ({ contacts: { contacts } }) => ({
-  contacts,
-});
-
-const mapDispatchToProps = dispatch => ({
-  onSubmit: (name,number) => dispatch(contactsActions.addContact(name,number))
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Form);
+export default Form;

@@ -1,9 +1,14 @@
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import {useCallback} from 'react';
+import { useDispatch, useSelector} from 'react-redux';
 import contactsActions from '../../redux/contacts/contacts-action'
+import { stateFilter } from '../../redux/contacts/contacts-selectors';
 import styles from './styles.module.scss'
 
-const Filter = ({value, onChange}) => {
+const Filter = () => {
+    const dispatch = useDispatch()
+    const value = useSelector(stateFilter)
+    const onChange = useCallback((event) => {dispatch(contactsActions.changeFilter(event.target.value))},[dispatch]);
+
     return(<>
     <h2 className={styles.title}>Contacts</h2>  
      <label className={styles.label}>
@@ -13,16 +18,4 @@ const Filter = ({value, onChange}) => {
         
       </label> </>)}
 
-      Filter.propTypes = {
-        value: PropTypes.string,
-        onChange: PropTypes.func.isRequired
-      }
-
-      const mapStateToProps = (state) => ({
-         value: state.contacts.filter
-    })
-     const mapDispatchToProps =  dispatch => ({
-       onChange: e => dispatch(contactsActions.changeFilter(e.target.value))
-     })
-
-export default connect(mapStateToProps, mapDispatchToProps)(Filter);
+export default Filter;
