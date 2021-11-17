@@ -9,14 +9,21 @@ const primeContacts = [
   { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
 ];
 
-const contacts = createReducer(primeContacts, {
-  [actions.addContact]: (state, action) => [...state, action.payload],
-  [actions.deleteContact]: (state, action) =>
+interface IContact{
+  id: string
+  name:string
+  number:string
+}
+
+
+const contacts = createReducer([] as IContact[], {
+  [actions.addContact.type]: (state, action) => [...state, action.payload],
+  [actions.deleteContact.type]: (state, action) =>
     state.filter(({ id }) => id !== action.payload),
 });
 
 const filter = createReducer('', {
-  [actions.changeFilter]: (_, action) => action.payload,
+  [actions.changeFilter.type]: (_, action) => action.payload,
 });
 
 export default combineReducers({
