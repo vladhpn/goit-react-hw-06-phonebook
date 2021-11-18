@@ -1,28 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
-
-
-type ContactType = {
-  id: string
-  name:string
-  number:string
-}
-
-type ContactsType ={
-  contacts: ContactType[]
-}
-
-interface IStateContact{
-  contacts : ContactsType
-}
-
-type FilterType = {
-filter: string
-}
-
-interface IFilterState {
-  contacts : FilterType
-}
-
+import {IStateContact} from '../../interfaces/interfaceContact'
+import {IFilterState} from '../../interfaces/interfaceFilter'
+ 
 
 export const getContacts = (state:IStateContact) => state.contacts.contacts;
 export const stateFilter = (state:IFilterState)=> state.contacts.filter;
